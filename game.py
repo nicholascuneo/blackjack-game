@@ -1,25 +1,19 @@
 """
 
 """
+def generate_suit(card_ranks, suit_symbol):
+    return [rank + suit_symbol for rank in card_ranks]
 
-face_cards = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K' , 'A']
+ranks = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K' , 'A']
 
-clubs = []
-diamonds = []
-hearts = []
-spades = []
+clubs = generate_suit(ranks, 'c')
+diamonds = generate_suit(ranks, 'd')
+hearts = generate_suit(ranks, 'h')
+spades = generate_suit(ranks, 's')
 
-for card in face_cards:
-    clubs.append(card + 'c')
+#for card in face_cards:
+#    clubs.append(card + 'c')
 
-for card in face_cards:
-    diamonds.append(card + 'd')
-
-for card in face_cards:
-    hearts.append(card + 'h')
-
-for card in face_cards:
-    spades.append(card + 's')
 
 deck1 = clubs + diamonds + hearts + spades
 deck2 = clubs + diamonds + hearts + spades
