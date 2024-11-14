@@ -7,6 +7,7 @@ import random as random
 def generate_suit(card_ranks, suit_initial):
     return [rank + suit_initial for rank in card_ranks]
 
+
 # Create main gameplay deck based on player preferred number of standard decks
 def create_game_deck(num_decks=2):
     ranks = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A']
@@ -60,6 +61,13 @@ def print_cards(cards):
     return "\n".join(card_lines)
 
 
+# Function to draw additional cards after initial hand
+def draw_card(hand, deck):
+    hand.append((random.choice(deck)))
+
+    return hand
+
+
 def main():
     #Initialize player bank with 100 bucks
     bank = 100
@@ -87,6 +95,12 @@ def main():
     print(print_cards(dealer_hand))
     
     print("\nPlayer draws a card:")
+    print(print_cards(player_hand))
+
+    # Using draw_card function
+    draw_card(player_hand, game_deck)
+
+    print("\nPlayer draws another card:")
     print(print_cards(player_hand))
     
 
