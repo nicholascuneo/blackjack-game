@@ -25,44 +25,40 @@ def create_game_deck(num_decks=2):
 
     return game_deck
 
-# Function to return realistic looking cards
-def print_card(rank1, suit1, rank2, suit2):
+
+# Function to print multiple cards side by side
+def print_cards(cards):
     # Create dictionary for suit symbols
-    suit_symbols = {
+    suit_symbols ={
         'c': '♣',
         'd': '♦',
         'h': '♥',
         's': '♠'
-
     }
 
-    # Default to '?' is suit is not found and get symbols for suits
-    suit_symbol1 = suit_symbols.get(suit1, '?')
-    suit_symbol2 = suit_symbols.get(suit2, '?')
+    # Convert each card to a formatted string
+    card_lines = [""] * 7 # Each card has 7 lines in ASCII format
 
-    # Format card layout
-    #card_template = """
-    #+---------+
-    #|{0:<2}       |
-    #|         |
-    #|    {1}    |
-    #|         |
-    #|       {0:>2}|
-    #+---------+
-    #""".format(rank, suit_symbol)
+    for card in cards:
+        rank, suit = card[:-1], card[-1]
+        suit_symbol = suit_symbols.get(suit, '?')
+        card_template = [
+            "+---------+",
+            f"|{rank:<2}       |",
+            "|         |",
+            f"|    {suit_symbol}    |",
+            "|         |",
+            f"|       {rank:>2}|",
+            "+---------+"
+        ]
 
-    # Format card layout for two cards side by side
-    card_template = """
-    +---------+     +---------+
-    |{0:<2}       |     |{2:<2}       |
-    |         |     |         |
-    |    {1}    |     |    {3}    |
-    |         |     |         |
-    |       {0:>2}|     |       {2:>2}|
-    +---------+     +---------+
-    """.format(rank2, suit_symbol2, rank1, suit_symbol1)
+        # Append each line of the card to the corresponding line in card_lines
+        for i in range(len(card_lines)):
+            card_lines[i] += card_template[i] + "  " # Add space between cards
+    
+    # Print each line of cards side by side
+    return "\n".join(card_lines)
 
-    return card_template
 
 def main():
     #Initialize player bank with 100 bucks
@@ -70,38 +66,28 @@ def main():
     num_decks = int(input("Enter the number of decks to play with: "))
     game_deck = create_game_deck(num_decks)
 
-    #print(game_deck)
-    #print("Game deck created with {} decks of cards".format(num_decks))
     print("Game deck created with {} cards".format(len(game_deck)))
-#FIXME
-    # Dealer hand
+
+    
+    # Dealer and player draw 2 cards to start
     dealer_hand = random.choices(game_deck, k=2)
-    dealer_card1 = dealer_hand[0]
-    dealer_card2 = dealer_hand[1]
-    card1_suit = dealer_card1[-1]
-    card1_rank = dealer_card1[:-1]
-    card2_suit = dealer_card2[-1]
-    card2_rank = dealer_card2[:-1]
-#FIXME
-    # Player hand
     player_hand = random.choices(game_deck, k=2)
-    player_card1 = player_hand[0]
-    player_card2 = player_hand[1]
-    pcard1_suit = player_card1[-1]
-    pcard1_rank = player_card1[:-1]
-    pcard2_suit = player_card2[-1]
-    pcard2_rank = player_card2[:-1]
 
-#FIXME
-    # Display dealer's two cards side by side
-    print("Dealer hand: |{}| |X|".format(dealer_hand[1]))
-    print("Dealer hand: {}".format(print_card(card2_rank, card2_suit, card1_rank, card1_suit)))
-    print(dealer_hand)
+    # Display dealer and player hands
+    print("Dealer hand:")
+    print(print_cards(dealer_hand))
 
-    # Display player's two cards side by side
-    print("Your hand: |{}| |{}|".format(player_hand[1], player_hand[0]))
-    print("Your hand: {}".format(print_card(pcard2_rank, pcard2_suit, pcard1_rank, pcard1_suit)))
-    print(player_hand)
+    print("Player hand:")
+    print(print_cards(player_hand))
 
+    # Example of adding a card to player hand
+    player_hand.append(random.choice(game_deck))
+
+    print("Dealer hand:")
+    print(print_cards(dealer_hand))
+    
+    print("\nPlayer draws a card:")
+    print(print_cards(player_hand))
+    
 
 main()
