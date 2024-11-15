@@ -2,6 +2,15 @@
 
 """
 import random as random
+import os
+import platform
+
+# Clear screen to avoid clutter
+def clear_screen():
+    if platform.system() == "Windows":
+        os.system("cls")
+    else:
+        os.system("clear")
 
 # Form a complete suit of cards
 def generate_suit(card_ranks, suit_initial):
