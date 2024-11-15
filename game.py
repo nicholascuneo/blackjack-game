@@ -68,6 +68,12 @@ def draw_card(hand, deck):
     return hand
 
 
+#def instructions():
+
+
+#def show_status():
+
+
 def main():
     #Initialize player bank with 100 bucks
     bank = 100
@@ -77,31 +83,43 @@ def main():
     print("Game deck created with {} cards".format(len(game_deck)))
 
     
-    # Dealer and player draw 2 cards to start
-    dealer_hand = random.choices(game_deck, k=2)
-    player_hand = random.choices(game_deck, k=2)
+    while bank != 0:
 
-    # Display dealer and player hands
-    print("Dealer hand:")
-    print(print_cards(dealer_hand))
+        while True:
+            bet = int(input("Enter your bet (min. 5): "))
 
-    print("Player hand:")
-    print(print_cards(player_hand))
-
-    # Example of adding a card to player hand
-    player_hand.append(random.choice(game_deck))
-
-    print("Dealer hand:")
-    print(print_cards(dealer_hand))
+            if bet < 5:
+                print("Bet too low.")
+            else:
+                bank -= bet
+                break
+        
+        # Dealer and player draw 2 cards to start
+        dealer_hand = random.choices(game_deck, k=2)
+        player_hand = random.choices(game_deck, k=2)
     
-    print("\nPlayer draws a card:")
-    print(print_cards(player_hand))
+        # Display dealer and player hands
+        print("Dealer hand:")
+        print(print_cards(dealer_hand))
 
-    # Using draw_card function
-    draw_card(player_hand, game_deck)
+        print("Player hand:")
+        print(print_cards(player_hand))
 
-    print("\nPlayer draws another card:")
-    print(print_cards(player_hand))
+        # Player move
+        player_move = input("Hit or Stay?\n").title()
+
+        while player_move != "Stay":
+            # Draw another card and add to player hand
+            draw_card(player_hand, game_deck)
+            
+            # Print dealer hand and updated player hand
+            print("Dealer hand:")
+            print(print_cards(dealer_hand))
+            
+            print("Player hand:")
+            print(print_cards(player_hand))
+            
+            player_move = input("Hit or Stay?\n").title()
     
 
 main()
