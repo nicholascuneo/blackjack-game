@@ -77,15 +77,26 @@ def draw_card(hand, deck):
     return hand
 
 
-def display_hands(dealer, player):
+def display_hands(dealer, player, hide_dealer_first_card=True):
     print("Dealer hand:")
-    print(print_cards(dealer))
+    if hide_dealer_first_card:
+        # Hide the dealer's first card
+        hidden_hand = dealer[:1] + ["??"]
+        print(print_cards(hidden_hand))
+    else:
+        # Show dealer's full hand
+        print(print_cards(dealer))
 
     print("Player hand:")
     print(print_cards(player))
 
 
-#def instructions():
+def instructions():
+    print("Objective: Draw cards to beat the Dealer's hand without going over 21.\n"
+          "\nHit: Type 'Hit' to draw another card.\n"
+          "Stay: Type Stay to hold your total and let the dealer play their turn.\n"
+          "Help: Type h or help to display these instructions again.\n"
+          "Quit: Type q or exit to quit the game.")
 
 
 #def show_status():
@@ -94,7 +105,14 @@ def display_hands(dealer, player):
 def main():
     #Initialize player bank with 100 bucks
     bank = 100
-    num_decks = int(input("Enter the number of decks to play with: "))
+    bet = 0
+    
+    print("WELCOME TO BLACKJACK")
+    instructions()
+    input("\nPress Enter to continue...")
+    clear_screen()
+
+    num_decks = int(input("\nEnter the number of decks to play with: "))
     game_deck = create_game_deck(num_decks)
 
     print("Game deck created with {} cards".format(len(game_deck)))
@@ -103,10 +121,12 @@ def main():
     while bank != 0:
 
         while True:
+            print("Bank: ${}  Bet: ${}".format(bank, bet))
             bet = int(input("Enter your bet (min. 5): "))
 
             if bet < 5:
                 print("Bet too low.")
+                bet = 0
             else:
                 bank -= bet
                 break
@@ -116,7 +136,7 @@ def main():
         player_hand = random.choices(game_deck, k=2)
     
         # Display dealer and player hands
-        display_hands(dealer_hand, player_hand)
+        display_hands(dealer_hand, player_hand, hide_dealer_first_card=True)
 
         # Player move
         print("Bank: ${}  Bet: ${}".format(bank, bet))
@@ -127,10 +147,14 @@ def main():
             draw_card(player_hand, game_deck)
             
             # Print dealer hand and updated player hand
-            display_hands(dealer_hand, player_hand)
+            display_hands(dealer_hand, player_hand, hide_dealer_first_card=True)
             
             print("Bank: ${}  Bet: ${}".format(bank, bet))
             player_move = input("Hit or Stay?\n").title()
+        
+        # If user holds, reveal dealer's full hand
+        display_hands(dealer_hand, player_hand, hide_dealer_first_card=False)
+
     
 
 main()
