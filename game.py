@@ -77,6 +77,14 @@ def draw_card(hand, deck):
     return hand
 
 
+def display_hands(dealer, player):
+    print("Dealer hand:")
+    print(print_cards(dealer))
+
+    print("Player hand:")
+    print(print_cards(player))
+
+
 #def instructions():
 
 
@@ -108,13 +116,10 @@ def main():
         player_hand = random.choices(game_deck, k=2)
     
         # Display dealer and player hands
-        print("Dealer hand:")
-        print(print_cards(dealer_hand))
-
-        print("Player hand:")
-        print(print_cards(player_hand))
+        display_hands(dealer_hand, player_hand)
 
         # Player move
+        print("Bank: ${}  Bet: ${}".format(bank, bet))
         player_move = input("Hit or Stay?\n").title()
 
         while player_move != "Stay":
@@ -122,12 +127,9 @@ def main():
             draw_card(player_hand, game_deck)
             
             # Print dealer hand and updated player hand
-            print("Dealer hand:")
-            print(print_cards(dealer_hand))
+            display_hands(dealer_hand, player_hand)
             
-            print("Player hand:")
-            print(print_cards(player_hand))
-            
+            print("Bank: ${}  Bet: ${}".format(bank, bet))
             player_move = input("Hit or Stay?\n").title()
     
 
