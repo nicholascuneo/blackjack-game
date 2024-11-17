@@ -69,11 +69,32 @@ def print_cards(cards):
     # Print each line of cards side by side
     return "\n".join(card_lines)
 
+# Assign integer value to face cards
+def card_value(card):
+    rank = card[:-1]
+    if rank in ['J', 'Q', 'K']:
+        return 10
+    elif rank == 'A':
+        return 11
+    else:
+        return int(rank) # Convert rank to integer for numeric cards
+
+ # Calculate total value of hand
+def calculate_hand_value(hand):
+    values = [card_value(card) for card in hand]
+    total   = sum(values)
+    # Adjust for aces if total exceeds 21
+    ace_count = values.count(11)
+    while total > 21 and ace_count > 0:
+        total -= 10
+        ace_count -= 1
+    return total
+
 
 # Function to draw additional cards after initial hand
 def draw_card(hand, deck):
     hand.append((random.choice(deck)))
-
+    
     return hand
 
 
@@ -83,12 +104,16 @@ def display_hands(dealer, player, hide_dealer_first_card=True):
         # Hide the dealer's first card
         hidden_hand = dealer[:1] + ["??"]
         print(print_cards(hidden_hand))
+        dealer_total = "??" # Hide total when first card is hidden
     else:
         # Show dealer's full hand
         print(print_cards(dealer))
+        dealer_total = calculate_hand_value(dealer)
 
+    print(f"DEALER TOTAL: {dealer_total}")
     print("Player hand:")
     print(print_cards(player))
+    print(f"YOUR TOTAL: {calculate_hand_value(player)}")
 
 
 def instructions():
@@ -139,6 +164,8 @@ def main():
         display_hands(dealer_hand, player_hand, hide_dealer_first_card=True)
 
         # Player move
+        #FIXME
+        #print(f"DEALER TOTAL: {calculate_hand_value(dealer_hand)} | YOUR TOTAL: {calculate_hand_value(player_hand)}")
         print("Bank: ${}  Bet: ${}".format(bank, bet))
         player_move = input("Hit or Stay?\n").title()
 
@@ -149,6 +176,8 @@ def main():
             # Print dealer hand and updated player hand
             display_hands(dealer_hand, player_hand, hide_dealer_first_card=True)
             
+            #FIXME
+            #print(f"DEALER TOTAL: {calculate_hand_value(dealer_hand)} | YOUR TOTAL: {calculate_hand_value(player_hand)}")
             print("Bank: ${}  Bet: ${}".format(bank, bet))
             player_move = input("Hit or Stay?\n").title()
         
