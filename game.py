@@ -92,7 +92,8 @@ def calculate_hand_value(hand):
 
 # Function to draw additional cards after initial hand
 def draw_card(hand, deck):
-    hand.append((random.choice(deck)))
+    card = deck.pop() # Remove top card from deck
+    hand.append(card) # Add card to hand
     
     return hand
 
@@ -165,9 +166,13 @@ def main():
             break
 
         bank -= bet
+        
         # Dealer and player draw 2 cards to start
-        dealer_hand = random.choices(game_deck, k=2)
-        player_hand = random.choices(game_deck, k=2)
+        dealer_hand = []
+        player_hand = []
+        for c in range(2):
+            draw_card(dealer_hand, game_deck)
+            draw_card(player_hand, game_deck)
     
         # Display dealer and player hands
         display_hands(dealer_hand, player_hand, hide_dealer_first_card=True)
