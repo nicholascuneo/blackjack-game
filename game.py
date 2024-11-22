@@ -32,7 +32,6 @@ def create_game_deck(num_decks=2):
 
     # Form complete game deck based on num_decks
     game_deck = single_deck * num_decks
-
     return game_deck
 
 
@@ -140,6 +139,7 @@ def main():
 
     num_decks = int(input("\nEnter the number of decks to play with: "))
     game_deck = create_game_deck(num_decks)
+    random.shuffle(game_deck) # Shuffle game deck
 
     print("Game deck created with {} cards".format(len(game_deck)))
 
@@ -216,6 +216,12 @@ def main():
             bank += bet
         else:
             print("House Wins")
+        
+        # Reshuffle deck when game deck is half depleted
+        if len(game_deck) < (0.5 * len(create_game_deck(num_decks))):
+            print("Shuffling a new deck...")
+            game_deck = create_game_deck(num_decks)
+            random.shuffle(game_deck)
 
     
 main()
