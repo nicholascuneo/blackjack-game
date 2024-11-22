@@ -171,51 +171,50 @@ def main():
     
         # Display dealer and player hands
         display_hands(dealer_hand, player_hand, hide_dealer_first_card=True)
+        print("Bank: ${}  Bet: ${}".format(bank, bet))
 
         # Player move
-        #FIXME
-        #print(f"DEALER TOTAL: {calculate_hand_value(dealer_hand)} | YOUR TOTAL: {calculate_hand_value(player_hand)}")
-        print("Bank: ${}  Bet: ${}".format(bank, bet))
-        player_move = input("Hit or Stay?\n").title()
-
-        while player_move != "Stay":
-            # Draw another card and add to player hand
-            draw_card(player_hand, game_deck)
-            
-            # Print dealer hand and updated player hand
-            display_hands(dealer_hand, player_hand, hide_dealer_first_card=True)
-            
-            #FIXME
-            if calculate_hand_value(player_hand) > 21:
-                print("You busted!")
-                break               
-            elif calculate_hand_value(player_hand) == 21:
-                print("BLACKJACK!!")
-                break
-
-            print("Bank: ${}  Bet: ${}".format(bank, bet))
+        while calculate_hand_value(player_hand) <= 21:
             player_move = input("Hit or Stay?\n").title()
-        
-        # If user holds, reveal dealer's full hand
-        display_hands(dealer_hand, player_hand, hide_dealer_first_card=False)
+            if player_move == "Stay":
+                break
+            elif player_move == "Hit":
+                # Draw another card and add to player hand
+                draw_card(player_hand, game_deck)
+                # Print dealer hand and updated player hand
+                display_hands(dealer_hand, player_hand, hide_dealer_first_card=True)
+            else:
+                print("Invalid input.")
+            
+        if calculate_hand_value(player_hand) > 21:
+            print("You busted!")
+            continue
 
+        # Once player holds, reveal dealer's full hand
+        display_hands(dealer_hand, player_hand, hide_dealer_first_card=False)
+        input("\nPress Enter to continue...")
+
+        # Dealer stands on hard 17
+        while calculate_hand_value(dealer_hand) < 17:
+            draw_card(dealer_hand, game_deck)
+            
+        display_hands(dealer_hand, player_hand, hide_dealer_first_card=False)
         dealer_total = calculate_hand_value(dealer_hand)
         player_total = calculate_hand_value(player_hand)
-
-        while (dealer_total < 17):
-            draw_card(dealer_hand, game_deck)
-            display_hands(dealer_hand, player_hand, hide_dealer_first_card=False)
-
-            dealer_total = calculate_hand_value(dealer_hand)
-            player_total = calculate_hand_value(player_hand)
-
-        if dealer_total == player_total:
+        
+        if dealer_total > 21 or player_total > dealer_total:
+            print("You Win!!")
+            # Add winnings to bank
+            bank += 2 * bet
+        elif player_total == 21 and len(player_hand) == 2:
+            print("BLACKJACK!!")
+            # Blackjack pays 3 to 2
+            bank += int(2.5 * bet)
+        elif dealer_total == player_total:
             print("Push!!")
-        elif dealer_total > 21:
-            print("You Win!!")
-        elif dealer_total < player_total:
-            print("You Win!!")
-        elif dealer_total > player_total:
+            # Add bet back to bank
+            bank += bet
+        else:
             print("House Wins")
 
     
