@@ -197,30 +197,34 @@ def main():
 
         # Once player holds, reveal dealer's full hand
         display_hands(dealer_hand, player_hand, hide_dealer_first_card=False)
-        input("\nPress Enter to continue...")
-
-        # Dealer stands on hard 17
-        while calculate_hand_value(dealer_hand) < 17:
-            draw_card(dealer_hand, game_deck)
-            
-        display_hands(dealer_hand, player_hand, hide_dealer_first_card=False)
-        dealer_total = calculate_hand_value(dealer_hand)
-        player_total = calculate_hand_value(player_hand)
         
-        if dealer_total > 21 or player_total > dealer_total:
-            print("You Win!!")
-            # Add winnings to bank
-            bank += 2 * bet
-        elif player_total == 21 and len(player_hand) == 2:
-            print("BLACKJACK!!")
-            # Blackjack pays 3 to 2
-            bank += int(2.5 * bet)
-        elif dealer_total == player_total:
-            print("Push!!")
-            # Add bet back to bank
-            bank += bet
-        else:
+        if calculate_hand_value(dealer_hand) > calculate_hand_value(player_hand):
             print("House Wins")
+        else:
+            input("\nPress Enter to continue...")
+            
+            # Dealer stands on hard 17
+            while calculate_hand_value(dealer_hand) < 17:
+                draw_card(dealer_hand, game_deck)
+            
+            display_hands(dealer_hand, player_hand, hide_dealer_first_card=False)
+            dealer_total = calculate_hand_value(dealer_hand)
+            player_total = calculate_hand_value(player_hand)
+        
+            if dealer_total > 21 or player_total > dealer_total:
+                print("You Win!!")
+                # Add winnings to bank
+                bank += 2 * bet
+            elif player_total == 21 and len(player_hand) == 2:
+                print("BLACKJACK!!")
+                # Blackjack pays 3 to 2
+                bank += int(2.5 * bet)
+            elif dealer_total == player_total:
+                print("Push!!")
+                # Add bet back to bank
+                bank += bet
+            else:
+                print("House Wins")
         
         # Reshuffle deck when game deck is half depleted
         if len(game_deck) < (0.5 * len(create_game_deck(num_decks))):
