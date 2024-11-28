@@ -176,6 +176,7 @@ def main():
     
         # Display dealer and player hands
         display_hands(dealer_hand, player_hand, hide_dealer_first_card=True)
+        print(f"Remaining cards in deck: {len(game_deck)}")
         print("Bank: ${}  Bet: ${}".format(bank, bet))
 
         # Player move
@@ -197,19 +198,21 @@ def main():
 
         # Once player holds, reveal dealer's full hand
         display_hands(dealer_hand, player_hand, hide_dealer_first_card=False)
+        dealer_total = calculate_hand_value(dealer_hand)
+        player_total = calculate_hand_value(player_hand)
         
-        if calculate_hand_value(dealer_hand) > calculate_hand_value(player_hand):
+        if dealer_total > player_total:
             print("House Wins")
         else:
             input("\nPress Enter to continue...")
             
             # Dealer stands on hard 17
-            while calculate_hand_value(dealer_hand) < 17:
+            while dealer_total < 17:
+                #print(f"DEBUG: Dealer drawing card, remaining cards: {len(game_deck)}")
                 draw_card(dealer_hand, game_deck)
+                dealer_total = calculate_hand_value(dealer_hand) # Update dealer total after each card draw
             
             display_hands(dealer_hand, player_hand, hide_dealer_first_card=False)
-            dealer_total = calculate_hand_value(dealer_hand)
-            player_total = calculate_hand_value(player_hand)
         
             if dealer_total > 21 or player_total > dealer_total:
                 print("You Win!!")
