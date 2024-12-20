@@ -98,7 +98,8 @@ def draw_card(hand, deck):
 
 def display_hands(dealer, player, hide_dealer_first_card=True):
     """Displays the dealer's and player's hands side by side"""
-    print("Dealer hand:")
+    print("\n====================== HAND STATUS ======================")
+    print("Dealer's Hand:")
     if hide_dealer_first_card:
         # Hide the dealer's first card
         hidden_hand = dealer[:1] + ["??"]
@@ -109,11 +110,11 @@ def display_hands(dealer, player, hide_dealer_first_card=True):
         print(print_cards(dealer))
         dealer_total = calculate_hand_value(dealer)
 
-    # print(f"DEALER TOTAL: {dealer_total}")
-    print("Player hand:")
+    print(f"Dealer Total: {dealer_total}")
+    print("\nPlayer's hand:")
     print(print_cards(player))
-    # print(f"YOUR TOTAL: {calculate_hand_value(player)}")
-    print(f"DEALER TOTAL: {dealer_total} | YOUR TOTAL: {calculate_hand_value(player)}")
+    print(f"Your Total: {calculate_hand_value(player)}")
+    print("=======================================================\n")
 
 
 def instructions():
