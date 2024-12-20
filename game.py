@@ -1,31 +1,34 @@
 """
 
 """
-import random as random
+
 import os
 import platform
+import random as random
 
-# Clear screen to avoid clutter
+
 def clear_screen():
+    """Clear screen for better readability"""
     if platform.system() == "Windows":
         os.system("cls")
     else:
         os.system("clear")
 
-# Form a complete suit of cards
+
 def generate_suit(card_ranks, suit_initial):
+    """Form a complete suit of cards"""
     return [rank + suit_initial for rank in card_ranks]
 
 
-# Create main gameplay deck based on player preferred number of standard decks
 def create_game_deck(num_decks=2):
-    ranks = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A']
+    """Create main gameplay deck based on the preferred number of decks"""
+    ranks = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"]
 
     # Generate all suits for a single deck
-    clubs = generate_suit(ranks, 'c')
-    diamonds = generate_suit(ranks, 'd')
-    hearts = generate_suit(ranks, 'h')
-    spades = generate_suit(ranks, 's')
+    clubs = generate_suit(ranks, "c")
+    diamonds = generate_suit(ranks, "d")
+    hearts = generate_suit(ranks, "h")
+    spades = generate_suit(ranks, "s")
 
     # Combine all suits to form a single complete deck
     single_deck = clubs + diamonds + hearts + spades
@@ -35,22 +38,17 @@ def create_game_deck(num_decks=2):
     return game_deck
 
 
-# Function to print multiple cards side by side
 def print_cards(cards):
+    """Render cards side by side"""
     # Create dictionary for suit symbols
-    suit_symbols ={
-        'c': '♣',
-        'd': '♦',
-        'h': '♥',
-        's': '♠'
-    }
+    suit_symbols = {"c": "♣", "d": "♦", "h": "♥", "s": "♠"}
 
     # Convert each card to a formatted string
-    card_lines = [""] * 7 # Each card has 7 lines in ASCII format
+    card_lines = [""] * 7  # Each card has 7 lines in ASCII format
 
     for card in cards:
         rank, suit = card[:-1], card[-1]
-        suit_symbol = suit_symbols.get(suit, '?')
+        suit_symbol = suit_symbols.get(suit, "?")
         card_template = [
             "+---------+",
             f"|{rank:<2}       |",
@@ -58,30 +56,32 @@ def print_cards(cards):
             f"|    {suit_symbol}    |",
             "|         |",
             f"|       {rank:>2}|",
-            "+---------+"
+            "+---------+",
         ]
 
         # Append each line of the card to the corresponding line in card_lines
         for i in range(len(card_lines)):
-            card_lines[i] += card_template[i] + "  " # Add space between cards
-    
+            card_lines[i] += card_template[i] + "  "  # Add space between cards
+
     # Print each line of cards side by side
     return "\n".join(card_lines)
 
-# Assign integer value to face cards
+
 def card_value(card):
+    """Assign numerical value to face cards"""
     rank = card[:-1]
-    if rank in ['J', 'Q', 'K']:
+    if rank in ["J", "Q", "K"]:
         return 10
-    elif rank == 'A':
+    elif rank == "A":
         return 11
     else:
-        return int(rank) # Convert rank to integer for numeric cards
+        return int(rank)  # Convert rank to integer for numeric cards
 
- # Calculate total value of hand
+
 def calculate_hand_value(hand):
+    """Calculate the total value of a hand"""
     values = [card_value(card) for card in hand]
-    total   = sum(values)
+    total = sum(values)
     # Adjust for aces if total exceeds 21
     ace_count = values.count(11)
     while total > 21 and ace_count > 0:
@@ -90,49 +90,50 @@ def calculate_hand_value(hand):
     return total
 
 
-# Function to draw additional cards after initial hand
 def draw_card(hand, deck):
-    card = deck.pop() # Remove top card from deck
-    hand.append(card) # Add card to hand
-    
+    """Draw a card and add it to the hand"""
+    card = deck.pop()  # Remove top card from deck
+    hand.append(card)  # Add card to hand
     return hand
 
 
 def display_hands(dealer, player, hide_dealer_first_card=True):
+    """Displays the dealer's and player's hands side by side"""
     print("Dealer hand:")
     if hide_dealer_first_card:
         # Hide the dealer's first card
         hidden_hand = dealer[:1] + ["??"]
         print(print_cards(hidden_hand))
-        dealer_total = "??" # Hide total when first card is hidden
+        dealer_total = "??"  # Hide total when first card is hidden
     else:
         # Show dealer's full hand
         print(print_cards(dealer))
         dealer_total = calculate_hand_value(dealer)
 
-    #print(f"DEALER TOTAL: {dealer_total}")
+    # print(f"DEALER TOTAL: {dealer_total}")
     print("Player hand:")
     print(print_cards(player))
-    #print(f"YOUR TOTAL: {calculate_hand_value(player)}")
+    # print(f"YOUR TOTAL: {calculate_hand_value(player)}")
     print(f"DEALER TOTAL: {dealer_total} | YOUR TOTAL: {calculate_hand_value(player)}")
 
 
 def instructions():
-    print("Objective: Draw cards to beat the Dealer's hand without going over 21.\n"
-          "\nHit: Type 'Hit' to draw another card.\n"
-          "Stay: Type Stay to hold your total and let the dealer play their turn.\n"
-          "Help: Type h or help to display these instructions again.\n"
-          "Quit: Type q or exit to quit the game.")
-
-
-#def show_status():
+    """Print game instructions"""
+    print(
+        "Objective: Draw cards to beat the Dealer's hand without going over 21.\n"
+        "\nHit: Type 'Hit' to draw another card.\n"
+        "Stay: Type Stay to hold your total and let the dealer play their turn.\n"
+        "Help: Type h or help to display these instructions again.\n"
+        "Quit: Type q or exit to quit the game."
+    )
 
 
 def main():
-    #Initialize player bank with 100 bucks
+    """Main game loop"""
+    # Initialize player bank with 100 bucks
     bank = 100
     bet = 0
-    
+
     print("WELCOME TO BLACKJACK")
     instructions()
     input("\nPress Enter to continue...")
@@ -140,20 +141,19 @@ def main():
 
     num_decks = int(input("\nEnter the number of decks to play with: "))
     game_deck = create_game_deck(num_decks)
-    random.shuffle(game_deck) # Shuffle game deck
+    random.shuffle(game_deck)  # Shuffle game deck
 
     print("Game deck created with {} cards".format(len(game_deck)))
 
-    
     while bank > 0:
         print("Bank: ${}".format(bank))
 
-        #Input validation for betting
+        # Input validation for betting
         while True:
             action = input("Enter you bet (min. 5) or 'q' to quit: ").lower()
-            if action == 'q':
+            if action == "q":
                 print("Thanks for playing!")
-                return # Exit main() completely and end game
+                return  # Exit main() completely and end game
             if not action.isdigit():
                 print("Please enter a valid number.")
                 continue
@@ -166,14 +166,14 @@ def main():
             break
 
         bank -= bet
-        
+
         # Dealer and player draw 2 cards to start
         dealer_hand = []
         player_hand = []
         for c in range(2):
             draw_card(dealer_hand, game_deck)
             draw_card(player_hand, game_deck)
-    
+
         # Display dealer and player hands
         display_hands(dealer_hand, player_hand, hide_dealer_first_card=True)
         print(f"Remaining cards in deck: {len(game_deck)}")
@@ -191,7 +191,7 @@ def main():
                 display_hands(dealer_hand, player_hand, hide_dealer_first_card=True)
             else:
                 print("Invalid input.")
-            
+
         if calculate_hand_value(player_hand) > 21:
             print("You busted!")
             continue
@@ -200,20 +200,22 @@ def main():
         display_hands(dealer_hand, player_hand, hide_dealer_first_card=False)
         dealer_total = calculate_hand_value(dealer_hand)
         player_total = calculate_hand_value(player_hand)
-        
+
         if dealer_total > player_total:
             print("House Wins")
         else:
             input("\nPress Enter to continue...")
-            
+
             # Dealer stands on hard 17
             while dealer_total < 17:
-                #print(f"DEBUG: Dealer drawing card, remaining cards: {len(game_deck)}")
+                # print(f"DEBUG: Dealer drawing card, remaining cards: {len(game_deck)}")
                 draw_card(dealer_hand, game_deck)
-                dealer_total = calculate_hand_value(dealer_hand) # Update dealer total after each card draw
-            
+                dealer_total = calculate_hand_value(
+                    dealer_hand
+                )  # Update dealer total after each card draw
+
             display_hands(dealer_hand, player_hand, hide_dealer_first_card=False)
-        
+
             if dealer_total > 21 or player_total > dealer_total:
                 print("You Win!!")
                 # Add winnings to bank
@@ -228,12 +230,12 @@ def main():
                 bank += bet
             else:
                 print("House Wins")
-        
+
         # Reshuffle deck when game deck is half depleted
         if len(game_deck) < (0.5 * len(create_game_deck(num_decks))):
             print("Shuffling a new deck...")
             game_deck = create_game_deck(num_decks)
             random.shuffle(game_deck)
 
-    
+
 main()
