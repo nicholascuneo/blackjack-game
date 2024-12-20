@@ -141,16 +141,17 @@ def main():
     bank = 100
     bet = 0
 
-    print("WELCOME TO BLACKJACK")
+    clear_screen()
     instructions()
     input("\nPress Enter to continue...")
     clear_screen()
 
-    num_decks = int(input("\nEnter the number of decks to play with: "))
+    num_decks = int(input("\nEnter the number of decks to play with (e.g., 1 or 2): "))
     game_deck = create_game_deck(num_decks)
     random.shuffle(game_deck)  # Shuffle game deck
 
     print("Game deck created with {} cards".format(len(game_deck)))
+    print("=============================================")
 
     while bank > 0:
         print("Bank: ${}".format(bank))
