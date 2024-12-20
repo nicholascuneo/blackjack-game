@@ -203,41 +203,35 @@ def main():
         dealer_total = calculate_hand_value(dealer_hand)
         player_total = calculate_hand_value(player_hand)
 
-        if dealer_total > player_total:
-            print("House Wins")
-        else:
-            input("\nPress Enter to continue...")
-
-            # Dealer stands on hard 17
-            while dealer_total < 17:
-                # print(f"DEBUG: Dealer drawing card, remaining cards: {len(game_deck)}")
-                draw_card(dealer_hand, game_deck)
-                dealer_total = calculate_hand_value(
-                    dealer_hand
-                )  # Update dealer total after each card draw
-
+        # Dealer stands on hard 17
+        while dealer_total < 17:
+            draw_card(dealer_hand, game_deck)
             display_hands(dealer_hand, player_hand, hide_dealer_first_card=False)
+            # Update dealer total after each card draw
+            dealer_total = calculate_hand_value(dealer_hand)
 
-            if dealer_total > 21 or player_total > dealer_total:
-                print("You Win!!")
-                # Add winnings to bank
-                bank += 2 * bet
-            elif player_total == 21 and len(player_hand) == 2:
-                print("BLACKJACK!!")
-                # Blackjack pays 3 to 2
-                bank += int(2.5 * bet)
-            elif dealer_total == player_total:
-                print("Push!!")
-                # Add bet back to bank
-                bank += bet
-            else:
-                print("House Wins")
+        if dealer_total > 21 or player_total > dealer_total:
+            print("\nYOU WIN!!")
+            bank += 2 * bet  # Add winnings to bank
+        elif player_total == 21 and len(player_hand) == 2:
+            print("BLACKJACK!!")
+            # Blackjack pays 3 to 2
+            bank += int(2.5 * bet)
+        elif dealer_total == player_total:
+            print("PUSH!! It's a tie.")
+            bank += bet  # Add bet back to bank
+        else:
+            print("\nHouse Wins..")
 
         # Reshuffle deck when game deck is half depleted
         if len(game_deck) < (0.5 * len(create_game_deck(num_decks))):
             print("Shuffling a new deck...")
             game_deck = create_game_deck(num_decks)
             random.shuffle(game_deck)
+
+        input("Press Enter to continue...")
+
+    print("\nYou're out of money.. Game over.")
 
 
 main()
