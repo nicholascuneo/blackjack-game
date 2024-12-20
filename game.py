@@ -180,6 +180,15 @@ def main():
         # Display dealer and player hands
         display_hands(dealer_hand, player_hand, hide_dealer_first_card=True)
 
+        # Check for BlackJack
+        if calculate_hand_value(player_hand) == 21:
+            print("BLACKJACK!!")
+            # Blackjack pays 3 to 2
+            bank += int(2.5 * bet)
+            input("\nPress Enter to continue..")
+            clear_screen()
+            continue
+
         # Player move
         while calculate_hand_value(player_hand) <= 21:
             player_move = input("Hit or Stay? (h/s): ").strip().lower()
@@ -213,10 +222,6 @@ def main():
         if dealer_total > 21 or player_total > dealer_total:
             print("\nYOU WIN!!")
             bank += 2 * bet  # Add winnings to bank
-        elif player_total == 21 and len(player_hand) == 2:
-            print("BLACKJACK!!")
-            # Blackjack pays 3 to 2
-            bank += int(2.5 * bet)
         elif dealer_total == player_total:
             print("PUSH!! It's a tie.")
             bank += bet  # Add bet back to bank
@@ -234,4 +239,5 @@ def main():
     print("\nYou're out of money.. Game over.")
 
 
-main()
+if __name__ == "__main__":
+    main()
