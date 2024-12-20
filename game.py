@@ -179,15 +179,13 @@ def main():
 
         # Display dealer and player hands
         display_hands(dealer_hand, player_hand, hide_dealer_first_card=True)
-        print(f"Remaining cards in deck: {len(game_deck)}")
-        print("Bank: ${}  Bet: ${}".format(bank, bet))
 
         # Player move
         while calculate_hand_value(player_hand) <= 21:
-            player_move = input("Hit or Stay?\n").title()
-            if player_move == "Stay":
+            player_move = input("Hit or Stay? (h/s): ").strip().lower()
+            if player_move == "stay" or "s":
                 break
-            elif player_move == "Hit":
+            elif player_move == "hit" or "h":
                 # Draw another card and add to player hand
                 draw_card(player_hand, game_deck)
                 # Print dealer hand and updated player hand
@@ -196,7 +194,8 @@ def main():
                 print("Invalid input.")
 
         if calculate_hand_value(player_hand) > 21:
-            print("You busted!")
+            print("You busted! You exceeded 21. Dealer wins.")
+            print("Press Enter to continue...")
             continue
 
         # Once player holds, reveal dealer's full hand
