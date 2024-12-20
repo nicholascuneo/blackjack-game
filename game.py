@@ -147,6 +147,7 @@ def main():
     clear_screen()
 
     num_decks = int(input("\nEnter the number of decks to play with (e.g., 1 or 2): "))
+    clear_screen()
     game_deck = create_game_deck(num_decks)
     random.shuffle(game_deck)  # Shuffle game deck
 
@@ -158,20 +159,14 @@ def main():
 
         # Input validation for betting
         while True:
-            action = input("Enter you bet (min. 5) or 'q' to quit: ").lower()
-            if action == "q":
-                print("Thanks for playing!")
+            bet = input("Enter your bet (min. 5) or 'q' to quit: ").strip().lower()
+            if bet == "q":
+                print("Thanks for playing! Goodbye!")
                 return  # Exit main() completely and end game
-            if not action.isdigit():
-                print("Please enter a valid number.")
-                continue
-            # Convert valid bet to integer
-            bet = int(action)
-            if (bet < 5) or (bet > bank):
-                print("Invalid bet.")
-                continue
-            # Valid bet, exit validation loop
-            break
+            if bet.isdigit() and 5 <= int(bet) <= bank:
+                bet = int(bet)
+                break  # Break out of input validation if bet is valid
+            print("Invalid bet. Please try again.")
 
         bank -= bet
 
