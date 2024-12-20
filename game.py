@@ -183,9 +183,9 @@ def main():
         # Player move
         while calculate_hand_value(player_hand) <= 21:
             player_move = input("Hit or Stay? (h/s): ").strip().lower()
-            if player_move == "stay" or "s":
+            if player_move in ["stay", "s"]:
                 break
-            elif player_move == "hit" or "h":
+            elif player_move in ["hit", "h"]:
                 # Draw another card and add to player hand
                 draw_card(player_hand, game_deck)
                 # Print dealer hand and updated player hand
