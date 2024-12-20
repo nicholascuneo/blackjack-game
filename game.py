@@ -92,8 +92,7 @@ def calculate_hand_value(hand):
 
 def draw_card(hand, deck):
     """Draw a card and add it to the hand"""
-    card = deck.pop()  # Remove top card from deck
-    hand.append(card)  # Add card to hand
+    hand.append(deck.pop())  # Remove top card from deck and add to hand
     return hand
 
 
