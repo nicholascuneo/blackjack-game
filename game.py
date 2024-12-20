@@ -120,11 +120,18 @@ def display_hands(dealer, player, hide_dealer_first_card=True):
 def instructions():
     """Print game instructions"""
     print(
-        "Objective: Draw cards to beat the Dealer's hand without going over 21.\n"
-        "\nHit: Type 'Hit' to draw another card.\n"
-        "Stay: Type Stay to hold your total and let the dealer play their turn.\n"
-        "Help: Type h or help to display these instructions again.\n"
-        "Quit: Type q or exit to quit the game."
+        """\n=============================================
+             WELCOME TO BLACKJACK!
+=============================================
+Draw cards to beat the dealer's hand without exceeding 21.
+
+Commands:
+  - Hit: Draw another card.
+  - Stay: Keep your hand and end your turn.
+  - Help: View instructions.
+  - Quit: Exit the game.
+=============================================
+"""
     )
 
 
