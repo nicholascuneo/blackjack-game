@@ -146,10 +146,19 @@ def main():
     input("\nPress Enter to continue...")
     clear_screen()
 
-    num_decks = int(input("\nEnter the number of decks to play with (e.g., 1 or 2): "))
+    try:
+        num_decks = int(
+            input("\nEnter the number of decks to play with (e.g., 1 or 2): ")
+        )
+        clear_screen()
+    except ValueError:
+        print("\nInvalid input! Defaulting to 2 decks.")
+        input("\nPress Enter to continue...")
+        clear_screen()
+        num_decks = 2
+
     game_deck = create_game_deck(num_decks)
     random.shuffle(game_deck)  # Shuffle game deck
-    clear_screen()
 
     print("Game deck created with {} cards".format(len(game_deck)))
     print("=============================================")
