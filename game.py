@@ -147,9 +147,9 @@ def main():
     clear_screen()
 
     num_decks = int(input("\nEnter the number of decks to play with (e.g., 1 or 2): "))
-    clear_screen()
     game_deck = create_game_deck(num_decks)
     random.shuffle(game_deck)  # Shuffle game deck
+    clear_screen()
 
     print("Game deck created with {} cards".format(len(game_deck)))
     print("=============================================")
@@ -160,7 +160,7 @@ def main():
         # Input validation for betting
         while True:
             bet = input("Enter your bet (min. 5) or 'q' to quit: ").strip().lower()
-            if bet == "q":
+            if bet in ["q", "quit"]:
                 print("Thanks for playing! Goodbye!")
                 return  # Exit main() completely and end game
             if bet.isdigit() and 5 <= int(bet) <= bank:
@@ -193,8 +193,10 @@ def main():
         while calculate_hand_value(player_hand) <= 21:
             player_move = input("Hit or Stay? (h/s): ").strip().lower()
             if player_move in ["stay", "s"]:
+                clear_screen()
                 break
             elif player_move in ["hit", "h"]:
+                clear_screen()
                 # Draw another card and add to player hand
                 draw_card(player_hand, game_deck)
                 # Print dealer hand and updated player hand
@@ -204,7 +206,8 @@ def main():
 
         if calculate_hand_value(player_hand) > 21:
             print("You busted! You exceeded 21. Dealer wins.")
-            print("Press Enter to continue...")
+            input("\nPress Enter to continue...")
+            clear_screen()
             continue
 
         # Once player holds, reveal dealer's full hand
@@ -235,6 +238,7 @@ def main():
             random.shuffle(game_deck)
 
         input("Press Enter to continue...")
+        clear_screen()
 
     print("\nYou're out of money.. Game over.")
 
