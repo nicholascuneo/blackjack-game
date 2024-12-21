@@ -1,4 +1,20 @@
 """
+Blackjack Game
+
+This program simulates a simplified version of the card game Blackjack.
+Players compete against the dealer to achieve a hand value as close to 21
+as possible without exceeding it ("busting"). The game supports:
+- Multiple decks (user-specified, defaults to 2 decks)
+- Automatic deck reshuffling when half of the cards are used
+- Basic Blackjack rules, including the dealer standing on hard 17
+- Support for betting with a starting bank of $100
+
+How to Play:
+1. The player starts with $100 in the bank and can place bets on each hand.
+2. Commands during gameplay:
+   - "Hit" (or "h") to draw another card.
+   - "Stay" (or "s") to end the turn and let the dealer play.
+3. The game ends when the player runs out of money or chooses to quit.
 
 """
 
@@ -182,7 +198,7 @@ def main():
         # Dealer and player draw 2 cards to start
         dealer_hand = []
         player_hand = []
-        for c in range(2):
+        for _ in range(2):
             draw_card(dealer_hand, game_deck)
             draw_card(player_hand, game_deck)
 
@@ -209,6 +225,9 @@ def main():
                 # Draw another card and add to player hand
                 draw_card(player_hand, game_deck)
                 # Print dealer hand and updated player hand
+                display_hands(dealer_hand, player_hand, hide_dealer_first_card=True)
+            elif player_move in ["help", "?"]:
+                instructions()
                 display_hands(dealer_hand, player_hand, hide_dealer_first_card=True)
             else:
                 print("Invalid input.")
