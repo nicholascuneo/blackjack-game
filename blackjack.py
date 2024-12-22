@@ -212,6 +212,8 @@ def main():
 
         # Check for BlackJack
         if calculate_hand_value(player_hand) == 21:
+            clear_screen()
+            display_hands(dealer_hand, player_hand, hide_dealer_first_card=False)
             print("BLACKJACK!!")
             # Blackjack pays 3 to 2
             bank += int(2.5 * bet)
