@@ -227,15 +227,7 @@ def main():
             else:
                 player_move = input("Hit or Stay? (h/s): ").strip().lower()
 
-            if player_move in ["double down", "dd", "d"]:
-                # Double bet and draw a single card
-                bet *= 2
-                draw_card(player_hand, game_deck)
-                print("\nYou doubled down!")
-                display_hands(dealer_hand, player_hand, hide_dealer_first_card=True)
-                input("Press Enter to continue..")
-                break
-            elif player_move in ["stay", "s"]:
+            if player_move in ["stay", "s"]:
                 clear_screen()
                 break
             elif player_move in ["hit", "h"]:
@@ -244,6 +236,20 @@ def main():
                 draw_card(player_hand, game_deck)
                 # Print dealer hand and updated player hand
                 display_hands(dealer_hand, player_hand, hide_dealer_first_card=True)
+            elif (
+                player_move in ["double down", "dd", "d"]
+                and len(player_hand) == 2
+                and calculate_hand_value(player_hand) in [9, 10, 11]
+            ):
+                # Subract from bank and double bet
+                bank -= bet
+                bet *= 2
+                # Draw single card and end hand
+                draw_card(player_hand, game_deck)
+                print("\nYou doubled down!")
+                display_hands(dealer_hand, player_hand, hide_dealer_first_card=True)
+                input("Press Enter to continue..")
+                break
             elif player_move in ["help", "?"]:
                 instructions()
                 display_hands(dealer_hand, player_hand, hide_dealer_first_card=True)
