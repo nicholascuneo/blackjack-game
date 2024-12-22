@@ -216,8 +216,26 @@ def main():
 
         # Player move
         while calculate_hand_value(player_hand) <= 21:
-            player_move = input("Hit or Stay? (h/s): ").strip().lower()
-            if player_move in ["stay", "s"]:
+            if len(player_hand) == 2 and calculate_hand_value(player_hand) in [
+                9,
+                10,
+                11,
+            ]:
+                player_move = (
+                    input("Hit, Stay, or Double Down? (h/s/dd): ").strip().lower()
+                )
+            else:
+                player_move = input("Hit or Stay? (h/s): ").strip().lower()
+
+            if player_move in ["double down", "dd", "d"]:
+                # Double bet and draw a single card
+                bet *= 2
+                draw_card(player_hand, game_deck)
+                print("\nYou doubled down!")
+                display_hands(dealer_hand, player_hand, hide_dealer_first_card=True)
+                input("Press Enter to continue..")
+                break
+            elif player_move in ["stay", "s"]:
                 clear_screen()
                 break
             elif player_move in ["hit", "h"]:
