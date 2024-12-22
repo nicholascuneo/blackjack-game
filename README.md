@@ -9,8 +9,8 @@ Welcome to **Blackjack**, a simplified Python version of the classic casino card
 - **Game Rules**:
   - Blackjack pays 3:2.
   - Dealer stands on hard 17.
+  - Reno rule: Double down only allowed on 9, 10, and 11.
   - Automatic reshuffling when the deck is half depleted.
-- **Player Commands**: Hit, Stay, Help, or Quit.
 - **Card Rendering**: Cards are displayed with ASCII art for a better visual experience.
 
 ## How to Play
@@ -36,7 +36,7 @@ Welcome to **Blackjack**, a simplified Python version of the classic casino card
 1. Clone this repository:
    
    ```bash
-   git clone https://github.com/your-username/blackjack-game.git
+   git clone https://github.com/nicholascuneo/blackjack-game.git
 
 2. Navigate to the project folder:
    
