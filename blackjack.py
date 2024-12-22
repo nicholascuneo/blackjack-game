@@ -137,9 +137,14 @@ def instructions():
     """Print game instructions"""
     print(
         """\n=============================================
-             WELCOME TO BLACKJACK!
+    ♠ ♥ ♦ ♣ WELCOME TO BLACKJACK! ♣ ♦ ♥ ♠
 =============================================
-Draw cards to beat the dealer's hand without exceeding 21.
+Draw cards to beat the dealer's hand without \nexceeding 21.
+
+House Rules:
+  - Dealer stands on hard 17.
+  - Blackjack pays 3 to 2.
+  - Reno rule: Double down only on 9, 10, 11.
 
 Commands:
   - Hit: Draw another card.
@@ -275,17 +280,17 @@ def main():
             dealer_total = calculate_hand_value(dealer_hand)
 
         if dealer_total > 21 or player_total > dealer_total:
-            print("\nYOU WIN!!")
+            print("YOU WIN!!\n")
             bank += 2 * bet  # Add winnings to bank
         elif dealer_total == player_total:
-            print("PUSH!! It's a tie.")
+            print("PUSH!! It's a tie.\n")
             bank += bet  # Add bet back to bank
         else:
-            print("\nHouse Wins..")
+            print("House Wins..\n")
 
         # Reshuffle deck when game deck is half depleted
         if len(game_deck) < (0.5 * len(create_game_deck(num_decks))):
-            print("Shuffling a new deck...")
+            print("Shuffling a new deck...\n")
             game_deck = create_game_deck(num_decks)
             random.shuffle(game_deck)
 
