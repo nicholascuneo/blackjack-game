@@ -20,11 +20,11 @@ How to Play:
 
 import os
 import platform
-import random as random
+import random
 
 
 def clear_screen():
-    """Clear screen for better readability"""
+    """Clear screen for better readability."""
     if platform.system() == "Windows":
         os.system("cls")
     else:
@@ -55,7 +55,7 @@ def create_game_deck(num_decks=2):
 
 
 def print_cards(cards):
-    """Render cards side by side"""
+    """Render cards side by side and return a string representation of the cards"""
     # Create dictionary for suit symbols
     suit_symbols = {"c": "♣", "d": "♦", "h": "♥", "s": "♠"}
 
@@ -84,7 +84,7 @@ def print_cards(cards):
 
 
 def card_value(card):
-    """Assign numerical value to face cards"""
+    """Assign numerical value to face cards and return it"""
     rank = card[:-1]
     if rank in ["J", "Q", "K"]:
         return 10
@@ -95,7 +95,7 @@ def card_value(card):
 
 
 def calculate_hand_value(hand):
-    """Calculate the total value of a hand"""
+    """Calculate the total value of a hand, adjusting the value of aces if the total exceeds 21"""
     values = [card_value(card) for card in hand]
     total = sum(values)
     # Adjust for aces if total exceeds 21
@@ -107,7 +107,7 @@ def calculate_hand_value(hand):
 
 
 def draw_card(hand, deck):
-    """Draw a card and add it to the hand"""
+    """Draw a card and add it to the hand. Modifies the hand in place."""
     hand.append(deck.pop())  # Remove top card from deck and add to hand
     return hand
 
