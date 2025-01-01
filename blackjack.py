@@ -228,9 +228,12 @@ def main():
                 10,
                 11,
             ]:
-                player_move = (
-                    input("Hit, Stay, or Double Down? (h/s/dd): ").strip().lower()
-                )
+                if bank >= bet:
+                    player_move = (
+                        input("Hit, Stay, or Double Down? (h/s/dd): ").strip().lower()
+                    )
+                else:
+                    player_move = input("Hit or Stay? (h/s): ").strip().lower()
             else:
                 player_move = input("Hit or Stay? (h/s): ").strip().lower()
 
@@ -248,15 +251,18 @@ def main():
                 and len(player_hand) == 2
                 and calculate_hand_value(player_hand) in [9, 10, 11]
             ):
-                # Subract from bank and double bet
-                bank -= bet
-                bet *= 2
-                # Draw single card and end hand
-                draw_card(player_hand, game_deck)
-                print("\nYou doubled down!")
-                display_hands(dealer_hand, player_hand, hide_dealer_first_card=True)
-                input("Press Enter to continue..")
-                break
+                if bank >= bet:
+                    # Subtract from bank and double bet
+                    bank -= bet
+                    bet *= 2
+                    # Draw single card and end hand
+                    draw_card(player_hand, game_deck)
+                    print("\nYou doubled down!")
+                    display_hands(dealer_hand, player_hand, hide_dealer_first_card=True)
+                    input("Press Enter to continue..")
+                    break
+                else:
+                    print("Insufficient funds to double down.")
             elif player_move in ["help", "?"]:
                 instructions()
                 display_hands(dealer_hand, player_hand, hide_dealer_first_card=True)
